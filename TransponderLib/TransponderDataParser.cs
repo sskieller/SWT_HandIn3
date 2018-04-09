@@ -7,7 +7,7 @@ namespace ATM
     {
         DateTime ParseTime(string time);
 
-        void ParseData(string inputString, out string tag, out int Xcoord, out int Ycoord, out uint altitude,
+        void ParseData(string inputString, out string tag, out int Xcoord, out int Ycoord, out int altitude,
             out DateTime time);
     }
 
@@ -30,7 +30,7 @@ namespace ATM
             out string tag, 
             out int xCoord, 
             out int yCoord, 
-            out uint altitude,
+            out int altitude,
             out DateTime time)
         {
             string[] strings = inputString.Split(';');
@@ -40,7 +40,7 @@ namespace ATM
             tag = strings[0];
             xCoord = int.Parse(strings[1]);
             yCoord = int.Parse(strings[2]);
-            altitude = uint.Parse(strings[3]);
+            altitude = int.Parse(strings[3]);
             time = ParseTime(strings[4]);
         }
     }
