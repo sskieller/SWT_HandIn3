@@ -30,6 +30,8 @@ namespace ATM
         public ATM()
         {
             _detector = new CollisionDetector();
+			_detector.SeparationEvent += DetectorOnSeparationEvent;
+			_detector.NoSeperationEvent += DetectorOnNoSeperationEvent;
             _dataParser = new TransponderDataParser();
             _receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
             _receiver.TransponderDataReady += ReceiverOnTransponderDataReady;
@@ -37,7 +39,21 @@ namespace ATM
             UpdateScreen();
         }
 
-        internal void UpdateScreen()
+		private void DetectorOnNoSeperationEvent(object sender, CollisionEventArgs e)
+		{
+			e.CollidingPlane1.Separation = false;
+			e.CollidingPlane2.Separation = false;
+		}
+
+		private void DetectorOnSeparationEvent(object sender, CollisionEventArgs e)
+	    {
+		    e.CollidingPlane1.Separation = true;
+		    e.CollidingPlane1.SeparationTime = e.CollidingPlane1.LastUpdated;
+		    e.CollidingPlane2.Separation = true;
+		    e.CollidingPlane2.SeparationTime = e.CollidingPlane2.LastUpdated;
+		}
+
+	    internal void UpdateScreen()
         {
             Console.Clear();
             Console.WriteLine("{0,-2}Plane Tag {0,-2} | {0,-2}Plane Speed {0,-2} | {0,-2}Plane Course {0,-2} | {0,-2}Plane Seperation {0,-2} | {0,-2}Plane Updated {0,-2} | {0,-2}Planes total: {1,-2:D} {0,-2}",
@@ -109,7 +125,8 @@ namespace ATM
             {
                 HandleData(data);
             }
-            //_detector.DetectCollision(_planes);
+	        _detector.VerifyCollisions();
+			_detector.DetectCollision(_planes);
             // Used to check planes
 
             UpdateScreen();
