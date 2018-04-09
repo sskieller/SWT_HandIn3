@@ -28,5 +28,10 @@ namespace TransponderLib
         {
 
         }
+
+        public void PrintPlane()
+        {
+
+        }
     }
 }

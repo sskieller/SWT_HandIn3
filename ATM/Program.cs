@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using TransponderLib;
@@ -13,7 +14,7 @@ namespace ATM
         static void Main(string[] args)
         {
             var atm = new ATM();
-
+            atm.UpdateScreen();
             while (Console.Read() != 'q') ;
         }
     }
@@ -32,32 +33,41 @@ namespace ATM
             _detector = new CollisionDetector();
             _dataParser = new TransponderDataParser();
             _receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
-            _receiver.TransponderDataReady += ReceiverOnTransponderDataReady;
+            //_receiver.TransponderDataReady += ReceiverOnTransponderDataReady;
         }
 
-
-        private void UpdatePlane(Plane plane, int xCoord, int yCoord, int altitude, DateTime time)
+        public void UpdateScreen()
         {
-            int deltaXCoord = Math.Abs(xCoord - plane.XCoord);
-            int deltaYCoord = Math.Abs(yCoord - plane.YCoord);
+            Console.Clear();
+            Console.WriteLine("{0,-2}Plane Tag {0,-2} | {0,-2}Plane Speed {0,-2} | {0,-2}Plane Course {0,-2} | {0,-2}Plane Seperation {0,-2} | {0,-2}Plane Updated {0,-2}",
+                string.Empty);
+
+            Console.WriteLine("{0,-2}{1,-9} {0,-2} | {0,-5}{2,-5} {0,-4} | {0,-2}{3,-6} {0,-2} | {0,-2}{4,-5} {0,-2} | {0,-2}{5,-10} {0,-2}",
+                string.Empty, "MSG5440664444", 230.44555, 110.3, true, DateTime.Now.TimeOfDay.ToString());
+        }
+
+        internal void UpdatePlane(Plane planeToUpdate, int xCoord, int yCoord, int altitude, DateTime time)
+        {
+            int deltaXCoord = Math.Abs(xCoord - planeToUpdate.XCoord);
+            int deltaYCoord = Math.Abs(yCoord - planeToUpdate.YCoord);
 
             double euclidianDistance = Math.Sqrt(deltaXCoord * deltaXCoord + deltaYCoord * deltaYCoord);
 
-            double deltaTime = time.TimeOfDay.TotalMilliseconds - plane.LastUpdated.TimeOfDay.TotalMilliseconds;
+            double deltaTime = time.TimeOfDay.TotalMilliseconds - planeToUpdate.LastUpdated.TimeOfDay.TotalMilliseconds;
 
             double direction = (Math.Atan2(deltaYCoord, deltaXCoord) * (180/Math.PI));
 
             double speed = euclidianDistance / (deltaTime / 1000);
 
 
-            plane.LastUpdated = time;
-            plane.Speed = speed;
-            plane.XCoord = xCoord;
-            plane.YCoord = yCoord;
-            plane.Altitude = altitude;
-            plane.Course = direction;
+            planeToUpdate.LastUpdated = time;
+            planeToUpdate.Speed = speed;
+            planeToUpdate.XCoord = xCoord;
+            planeToUpdate.YCoord = yCoord;
+            planeToUpdate.Altitude = altitude;
+            planeToUpdate.Course = direction;
         }
-        private void HandleData(string data)
+        internal void HandleData(string data)
         {
             string tag;
             int xCoord;
@@ -90,7 +100,7 @@ namespace ATM
                 _planes.Add(new Plane()
                     { Tag = tag, XCoord = xCoord, YCoord = yCoord, Altitude = altitude, LastUpdated = time, Course = 0, Speed = 0 });
         }
-        private void ReceiverOnTransponderDataReady(object sender, RawTransponderDataEventArgs rawTransponderDataEventArgs)
+        internal void ReceiverOnTransponderDataReady(object sender, RawTransponderDataEventArgs rawTransponderDataEventArgs)
         {
             foreach (var data in rawTransponderDataEventArgs.TransponderData)
             {
@@ -98,10 +108,6 @@ namespace ATM
             }
             //_detector.DetectCollision(_planes);
             // Used to check planes
-            foreach (var plane in _planes)
-            {
-                Console.WriteLine(plane.Tag + "   " + plane.XCoord + "/" + plane.YCoord + "   " + plane.Speed + "   "  + plane.Course);
-            } 
         }
     }
 }
