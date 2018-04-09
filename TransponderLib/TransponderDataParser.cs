@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 
-namespace ATM
+namespace TransponderLib
 {
     public interface ITransponderDataParser
     {

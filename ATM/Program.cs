@@ -36,16 +36,16 @@ namespace ATM
         }
 
 
-        public void UpdatePlane(Plane plane, int xCoord, int yCoord, int altitude, DateTime time)
+        private void UpdatePlane(Plane plane, int xCoord, int yCoord, int altitude, DateTime time)
         {
-            int deltaXCoord = (xCoord - plane.XCoord);
-            int deltaYCoord = (yCoord - plane.YCoord);
+            int deltaXCoord = Math.Abs(xCoord - plane.XCoord);
+            int deltaYCoord = Math.Abs(yCoord - plane.YCoord);
 
             double euclidianDistance = Math.Sqrt(deltaXCoord * deltaXCoord + deltaYCoord * deltaYCoord);
 
             double deltaTime = time.TimeOfDay.TotalMilliseconds - plane.LastUpdated.TimeOfDay.TotalMilliseconds;
 
-            double direction = Math.Atan2(deltaXCoord, deltaYCoord);
+            double direction = (Math.Atan2(deltaYCoord, deltaXCoord) * (180/Math.PI));
 
             double speed = euclidianDistance / (deltaTime / 1000);
 
@@ -56,7 +56,6 @@ namespace ATM
             plane.YCoord = yCoord;
             plane.Altitude = altitude;
             plane.Course = direction;
-
         }
 
 
@@ -80,15 +79,25 @@ namespace ATM
                     }
                     else
                     {
-                        _planes.Add(new Plane() {Tag = tag, XCoord = xCoord, YCoord = yCoord, Altitude = altitude, LastUpdated = time});
+                        _planes.Add(new Plane() {Tag = tag, XCoord = xCoord, YCoord = yCoord, Altitude = altitude, LastUpdated = time, Course = 0, Speed = 0});
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e);
                 }
-
             }
+
+            _detector.DetectCollision(_planes);
+
+
+            // Used to check planes
+            /*
+            foreach (var plane in _planes)
+            {
+                Console.WriteLine(plane.Tag + "   " + plane.XCoord + "/" + plane.YCoord + "   " + plane.Speed + "   "  + plane.Course);
+            }
+            */
         }
     }
 }
