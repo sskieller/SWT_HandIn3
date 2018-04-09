@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using TransponderLib;
 using TransponderReceiver;
 
-namespace ATM
+namespace ATM_ns
 {
     class Program
     {
