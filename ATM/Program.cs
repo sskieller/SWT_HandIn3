@@ -57,47 +57,51 @@ namespace ATM
             plane.Altitude = altitude;
             plane.Course = direction;
         }
+        private void HandleData(string data)
+        {
+            string tag;
+            int xCoord;
+            int yCoord;
+            int altitude;
+            DateTime time;
+
+            try
+            {
+                _dataParser.ParseData(data, out tag, out xCoord, out yCoord, out altitude, out time);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return;
+            }
+
+            if ((xCoord > 90000 || xCoord < 10000 || yCoord > 90000 || yCoord < 10000) &&
+                _planes.Exists(s => s.Tag == tag))
+                _planes.Remove(_planes.Find(p => p.Tag == tag)); // Remove existing plane, since out of airspace
+
+            else if (xCoord > 90000 || xCoord < 10000 || yCoord > 90000 || yCoord < 10000)
+                return; // Do not add plane
 
 
+            // Update plane if it exists, otherwise add the plane.
+            if (_planes.Exists(s => s.Tag == tag))
+                UpdatePlane(_planes.Find(p => p.Tag == tag), xCoord, yCoord, altitude, time);
+            else
+                _planes.Add(new Plane()
+                    { Tag = tag, XCoord = xCoord, YCoord = yCoord, Altitude = altitude, LastUpdated = time, Course = 0, Speed = 0 });
+        }
         private void ReceiverOnTransponderDataReady(object sender, RawTransponderDataEventArgs rawTransponderDataEventArgs)
         {
             foreach (var data in rawTransponderDataEventArgs.TransponderData)
             {
-                string tag;
-                int xCoord;
-                int yCoord;
-                int altitude;
-                DateTime time;
-
-                try
-                {
-                    _dataParser.ParseData(data, out tag, out xCoord, out yCoord, out altitude, out time);
-
-                    if (_planes.Exists(s => s.Tag == tag))
-                    {
-                        UpdatePlane(_planes.Find(p => p.Tag == tag), xCoord, yCoord, altitude, time);
-                    }
-                    else
-                    {
-                        _planes.Add(new Plane() {Tag = tag, XCoord = xCoord, YCoord = yCoord, Altitude = altitude, LastUpdated = time, Course = 0, Speed = 0});
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
+                HandleData(data);
             }
-
-            _detector.DetectCollision(_planes);
-
-
+            //_detector.DetectCollision(_planes);
             // Used to check planes
-            /*
             foreach (var plane in _planes)
             {
                 Console.WriteLine(plane.Tag + "   " + plane.XCoord + "/" + plane.YCoord + "   " + plane.Speed + "   "  + plane.Course);
-            }
-            */
+            } 
         }
     }
 }

@@ -33,6 +33,7 @@ namespace TransponderLib
 					    if (distance < 5000)
 					    {
 							SeparationEvent?.Invoke(this, new CollisionEventArgs(planes[i], planes[j]));
+                            Console.WriteLine("DEY GON CRASH");
 					    }
 				    }
 				}
