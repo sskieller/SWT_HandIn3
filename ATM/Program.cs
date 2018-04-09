@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using TransponderLib;
 using TransponderReceiver;
 
-namespace ATM
+namespace ATM_
 {
     class Program
     {
@@ -20,6 +21,7 @@ namespace ATM
 
     public class ATM
     {
+
         private readonly ITransponderReceiver _receiver;
         private ITransponderDataParser _dataParser;
         private CollisionDetector _detector;
@@ -36,7 +38,7 @@ namespace ATM
         }
 
 
-        private void UpdatePlane(Plane plane, int xCoord, int yCoord, int altitude, DateTime time)
+        internal void UpdatePlane(Plane plane, int xCoord, int yCoord, int altitude, DateTime time)
         {
             int deltaXCoord = Math.Abs(xCoord - plane.XCoord);
             int deltaYCoord = Math.Abs(yCoord - plane.YCoord);
@@ -59,7 +61,7 @@ namespace ATM
         }
 
 
-        private void ReceiverOnTransponderDataReady(object sender, RawTransponderDataEventArgs rawTransponderDataEventArgs)
+        internal void ReceiverOnTransponderDataReady(object sender, RawTransponderDataEventArgs rawTransponderDataEventArgs)
         {
             foreach (var data in rawTransponderDataEventArgs.TransponderData)
             {
