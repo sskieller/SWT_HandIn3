@@ -46,11 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="UT_Plane.cs" />
-=======
     <Compile Include="CollisionDetectorUnitTest.cs" />
->>>>>>> 3d6f3f7975535e5af218314d67bc9125373c99b6
     <Compile Include="UT_TransponderDataParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
