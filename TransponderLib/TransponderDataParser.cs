@@ -35,6 +35,8 @@ namespace ATM
         {
             string[] strings = inputString.Split(';');
 
+            if (strings.Length != 5) throw new ArgumentException("Wrong input");
+
             tag = strings[0];
             xCoord = int.Parse(strings[1]);
             yCoord = int.Parse(strings[2]);

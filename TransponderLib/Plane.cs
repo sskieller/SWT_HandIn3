@@ -1,4 +1,6 @@
-﻿namespace ATM
+﻿using System;
+
+namespace ATM
 {
     public class Plane
     {
@@ -8,6 +10,8 @@
         public uint Altitude { get; set; }
         public uint Speed { get; set; }
         public uint Course { get; set; }
+
+        public DateTime LastUpdated { get; set; }
 
         public Plane()
         {

@@ -35,7 +35,32 @@ namespace ATM
         {
             foreach (var data in rawTransponderDataEventArgs.TransponderData)
             {
+                string tag;
+                int xCoord;
+                int yCoord;
+                uint altitude;
+                DateTime time;
 
+                try
+                {
+                    _dataParser.ParseData(data, out tag, out xCoord, out yCoord, out altitude, out time);
+
+                    if (_planes.Exists(s => s.Tag == tag))
+                    {
+                        // Ignore
+                    }
+                    else
+                    {
+                        _planes.Add(new Plane() {Tag = tag, XCoord = xCoord, YCoord = yCoord, Altitude = altitude, LastUpdated = time});
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+
+
+                
             }
         }
     }
