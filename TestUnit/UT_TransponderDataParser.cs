@@ -44,12 +44,12 @@ namespace TestUnit
         }
 
         //ATR423;39045;12932;14000;20151006213456789
-        [Test]
-        public void ParseData_Test()
-        {
-            var data = "ATR423;39045;12932;14000;20151006213456789";
-            _uut.ParseData(data);
-            Assert.That();
-        }
+        //[Test]
+        //public void ParseData_Test()
+        //{
+        //    var data = "ATR423;39045;12932;14000;20151006213456789";
+        //    _uut.ParseData(data);
+        //    Assert.That();
+        //}
     }
 }
