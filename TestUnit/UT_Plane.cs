@@ -1,6 +1,6 @@
 ﻿using System;
-using ATM;
 using NUnit.Framework;
+using TransponderLib;
 
 namespace TestUnit
 {
@@ -44,6 +44,14 @@ namespace TestUnit
             int altitude = 3000;
             _uut.Altitude = altitude;
             Assert.That(_uut.Altitude, Is.EqualTo(altitude));
+        }
+
+        [Test]
+        public void Attribute_AltitudeNegative_ExpectedResult_True()
+        {
+            int altitude = -300;
+            _uut.Altitude = altitude;
+            Assert.That(_uut.Altitude, Is.EqualTo(0));
         }
 
         [Test]

@@ -99,6 +99,7 @@ namespace TestUnit
             Assert.That(yCoord, Is.EqualTo(yCor));
         }
 
+        [TestCase("ATR423;39045;12932;-32;20151006213456789",-32,TestName = "Altitude_-32")]
         [TestCase("ATR423;39045;12932;0;20151006213456789",0,TestName = "Altitude_0")]
         [TestCase("ATR423;39045;12932;14000;20151006213456789",14000,TestName = "Altitude_14k")]
         public void ParseData_AltitudeTest_ExpectedResult_True(string data, int alt)
@@ -111,18 +112,6 @@ namespace TestUnit
                 out DateTime time);
 
             Assert.That(altitude, Is.EqualTo(alt));
-        }
-
-        [Test]
-        public void ParseData_AltitudeTestNegativeNumber_ExpectedResult_Exception()
-        {
-            string data = "ATR423;39045;12932;-32;20151006213456789";
-            Assert.That(() => _uut.ParseData(data,
-                out string tag,
-                out int xCoord,
-                out int yCoord,
-                out int altitude,
-                out DateTime time), Throws.Exception.TypeOf<OverflowException>());
         }
 
         [Test]
