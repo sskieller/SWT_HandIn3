@@ -10,7 +10,8 @@ namespace ATM
         public int Altitude { get; set; }
         public uint Speed { get; set; }
         public uint Course { get; set; }
-
+        public double Speed { get; set; }
+        public double Course { get; set; }
         public DateTime LastUpdated { get; set; }
 
         public Plane()

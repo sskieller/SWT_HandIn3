@@ -51,7 +51,7 @@ namespace TestUnit
                 out string tag,
                 out int xCoord,
                 out int yCoord,
-                out uint altitude,
+                out int altitude,
                 out DateTime time), Throws.Exception.TypeOf<ArgumentException>());
         }
 
@@ -63,7 +63,7 @@ namespace TestUnit
                 out string tag, 
                 out int xCoord, 
                 out int yCoord, 
-                out uint altitude, 
+                out int altitude, 
                 out DateTime time);
             
             Assert.That(tag, Is.EqualTo(expectedTag));
@@ -78,7 +78,7 @@ namespace TestUnit
                 out string tag,
                 out int xCoord,
                 out int yCoord,
-                out uint altitude,
+                out int altitude,
                 out DateTime time);
 
             Assert.That(xCoord, Is.EqualTo(xCor));
@@ -93,7 +93,7 @@ namespace TestUnit
                 out string tag,
                 out int xCoord,
                 out int yCoord,
-                out uint altitude,
+                out int altitude,
                 out DateTime time);
 
             Assert.That(yCoord, Is.EqualTo(yCor));
@@ -107,7 +107,7 @@ namespace TestUnit
                 out string tag,
                 out int xCoord,
                 out int yCoord,
-                out uint altitude,
+                out int altitude,
                 out DateTime time);
 
             Assert.That(altitude, Is.EqualTo(alt));
@@ -121,7 +121,7 @@ namespace TestUnit
                 out string tag,
                 out int xCoord,
                 out int yCoord,
-                out uint altitude,
+                out int altitude,
                 out DateTime time), Throws.Exception.TypeOf<OverflowException>());
         }
 
@@ -134,7 +134,7 @@ namespace TestUnit
                 out string tag,
                 out int xCoord,
                 out int yCoord,
-                out uint altitude,
+                out int altitude,
                 out DateTime time);
 
             Assert.That(time, Is.EqualTo(date));
