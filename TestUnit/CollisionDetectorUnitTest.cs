@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ATM;
 using NUnit.Framework;
+using TransponderLib;
 
 namespace TestUnit
 {
