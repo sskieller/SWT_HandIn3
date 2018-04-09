@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace TransponderLib
 {
@@ -7,7 +8,18 @@ namespace TransponderLib
         public string Tag { get; set; }
         public int XCoord { get; set; }
         public int YCoord { get; set; }
-        public int Altitude { get; set; }
+
+        private int _altitude;
+        public int Altitude
+        {
+            get => this._altitude;
+            set
+            {
+                if (value >= 0) this._altitude = value;
+                else this._altitude = 0;
+            }
+        }
+
         public double Speed { get; set; }
         public double Course { get; set; }
         public DateTime LastUpdated { get; set; }
