@@ -20,19 +20,26 @@ namespace TransponderLib
 		    {
 			    for (int j = i + 1; j < planes.Count; ++j)
 			    {
-				    int differenceInAltitude = planes[i].Altitude - planes[j].Altitude;
+				    if (planes[j].Speed == 0)
+					    break; //Break in case of new plane
+
+
+				    int differenceInAltitude = planes[j].Altitude - planes[i].Altitude;
 				    if (differenceInAltitude < 300 && differenceInAltitude > -300)
 				    {
 						//Planes are within 300 meters in altitude, otherwise just ignore
 						//Calculate euclidian distance
-					    double xDifference = planes[i].XCoord - planes[j].XCoord;
-					    double yDifference = planes[i].XCoord - planes[j].XCoord;
+					    double xDifference = planes[j].XCoord - planes[i].XCoord;
+					    double yDifference = planes[j].YCoord - planes[i].YCoord;
 
-					    double distance = Math.Sqrt(Math.Pow(xDifference, 2) + Math.Pow(yDifference, 2));
+						double hypotenuse = Math.Pow(xDifference, 2) + Math.Pow(yDifference, 2);
+
+						double distance = Math.Sqrt(hypotenuse);
 
 					    if (distance < 5000)
 					    {
 							SeparationEvent?.Invoke(this, new CollisionEventArgs(planes[i], planes[j]));
+                            Console.WriteLine("DEY GON CRASH");
 					    }
 				    }
 				}
