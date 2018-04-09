@@ -14,7 +14,6 @@ namespace ATM
         static void Main(string[] args)
         {
             var atm = new ATM();
-            atm.UpdateScreen();
             while (Console.Read() != 'q') ;
         }
     }
@@ -33,17 +32,21 @@ namespace ATM
             _detector = new CollisionDetector();
             _dataParser = new TransponderDataParser();
             _receiver = TransponderReceiverFactory.CreateTransponderDataReceiver();
-            //_receiver.TransponderDataReady += ReceiverOnTransponderDataReady;
+            _receiver.TransponderDataReady += ReceiverOnTransponderDataReady;
+
+            UpdateScreen();
         }
 
-        public void UpdateScreen()
+        internal void UpdateScreen()
         {
             Console.Clear();
-            Console.WriteLine("{0,-2}Plane Tag {0,-2} | {0,-2}Plane Speed {0,-2} | {0,-2}Plane Course {0,-2} | {0,-2}Plane Seperation {0,-2} | {0,-2}Plane Updated {0,-2}",
-                string.Empty);
+            Console.WriteLine("{0,-2}Plane Tag {0,-2} | {0,-2}Plane Speed {0,-2} | {0,-2}Plane Course {0,-2} | {0,-2}Plane Seperation {0,-2} | {0,-2}Plane Updated {0,-2} | {0,-2}Planes total: {1,-2:D} {0,-2}",
+                string.Empty, _planes.Count);
 
-            Console.WriteLine("{0,-2}{1,-9} {0,-2} | {0,-5}{2,-5} {0,-4} | {0,-2}{3,-6} {0,-2} | {0,-2}{4,-5} {0,-2} | {0,-2}{5,-10} {0,-2}",
-                string.Empty, "MSG5440664444", 230.44555, 110.3, true, DateTime.Now.TimeOfDay.ToString());
+
+            foreach(var plane in _planes)
+                Console.WriteLine("{0,-2}{1,-9} {0,-2} | {0,-5}{2,-6:0.##} {0,-4} | {0,-5}{3,-6:0.##} {0,-5} | {0,-7}{4,-6} {0,-7} | {0,-2}{5,-10} {0,-2}",
+                    string.Empty, plane.Tag, plane.Speed, plane.Course, true, plane.LastUpdated.TimeOfDay.ToString());
         }
 
         internal void UpdatePlane(Plane planeToUpdate, int xCoord, int yCoord, int altitude, DateTime time)
@@ -108,6 +111,8 @@ namespace ATM
             }
             //_detector.DetectCollision(_planes);
             // Used to check planes
+
+            UpdateScreen();
         }
     }
 }
