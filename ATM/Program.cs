@@ -56,13 +56,13 @@ namespace ATM_ns
 	    internal void UpdateScreen()
         {
             Console.Clear();
-            Console.WriteLine("{0,-2}Plane Tag {0,-2} | {0,-2}Plane Speed {0,-2} | {0,-2}Plane Course {0,-2} | {0,-2}Plane Seperation {0,-2} | {0,-2}Plane Updated {0,-2} | {0,-2}Planes total: {1,-2:D} {0,-2}",
+            Console.WriteLine("{0,-2}Plane Tag {0,-2} | {0,-2}Plane Speed {0,-2} | {0,-2}Plane Course {0,-2} | {0,-2}Plane Separation {0,-2} | {0,-2}Plane Updated {0,-2} | {0,-2}Planes total: {1,-2:D} {0,-2}",
                 string.Empty, _planes.Count);
 
 
             foreach(var plane in _planes)
                 Console.WriteLine("{0,-2}{1,-9} {0,-2} | {0,-5}{2,-6:0.##} {0,-4} | {0,-5}{3,-6:0.##} {0,-5} | {0,-7}{4,-6} {0,-7} | {0,-2}{5,-10} {0,-2}",
-                    string.Empty, plane.Tag, plane.Speed, plane.Course, true, plane.LastUpdated.TimeOfDay.ToString());
+                    string.Empty, plane.Tag, plane.Speed, plane.Course, plane.Separation, plane.LastUpdated.TimeOfDay.ToString());
         }
 
         internal void UpdatePlane(Plane planeToUpdate, int xCoord, int yCoord, int altitude, DateTime time)
