@@ -52,7 +52,7 @@ namespace TestUnit
                 out int xCoord,
                 out int yCoord,
                 out uint altitude,
-                out DateTime time), Throws.Exception.TypeOf<IndexOutOfRangeException>());
+                out DateTime time), Throws.Exception.TypeOf<ArgumentException>());
         }
 
         [TestCase("A3;39045;12932;14000;20151006213456789","A3",TestName = "Shorter Name")]
