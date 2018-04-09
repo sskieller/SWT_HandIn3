@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TransponderLib;
 using TransponderReceiver;
 
 namespace ATM
@@ -11,9 +12,9 @@ namespace ATM
     {
         static void Main(string[] args)
         {
-            //var atm = new ATM();
+            var atm = new ATM();
 
-            //while (Console.Read() != 'q') ;
+            while (Console.Read() != 'q') ;
         }
     }
 
@@ -86,6 +87,7 @@ namespace ATM
                 {
                     Console.WriteLine(e);
                 }
+
             }
         }
     }
