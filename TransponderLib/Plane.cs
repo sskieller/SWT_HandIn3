@@ -24,6 +24,9 @@ namespace TransponderLib
         public double Course { get; set; }
         public DateTime LastUpdated { get; set; }
 
+		public DateTime SeparationTime { get; set; }
+		public bool Separation { get; set; }
+
         public Plane()
         {
 
