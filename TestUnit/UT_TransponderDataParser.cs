@@ -101,7 +101,7 @@ namespace TestUnit
 
         [TestCase("ATR423;39045;12932;0;20151006213456789",0,TestName = "Altitude_0")]
         [TestCase("ATR423;39045;12932;14000;20151006213456789",14000,TestName = "Altitude_14k")]
-        public void ParseData_AltitudeTestPositiveNumber_ExpectedResult_True(string data, int alt)
+        public void ParseData_AltitudeTest_ExpectedResult_True(string data, int alt)
         {
             _uut.ParseData(data,
                 out string tag,
@@ -117,7 +117,7 @@ namespace TestUnit
         public void ParseData_AltitudeTestNegativeNumber_ExpectedResult_Exception()
         {
             string data = "ATR423;39045;12932;-32;20151006213456789";
-            Assert.That(()=> _uut.ParseData(data,
+            Assert.That(() => _uut.ParseData(data,
                 out string tag,
                 out int xCoord,
                 out int yCoord,
