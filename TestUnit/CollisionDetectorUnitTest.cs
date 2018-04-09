@@ -141,7 +141,36 @@ namespace TestUnit
 			Assert.That(collisions == 3);
 		}
 
+		[TestCase]
+		public void VerifyCollision_TwoPlanesStillCollide_NoEventRaised()
+		{
+			bool eventRaised = false;
+			_planes.Add(new Plane() { Altitude = 4000, XCoord = 5000, YCoord = 5000, Speed = 1 });
+			_planes.Add(new Plane() { Altitude = 4100, XCoord = 5001, YCoord = 5001, Speed = 1 });
+			
+			_collisionDetector.NoSeperationEvent += (obj, e) => eventRaised = true;
+			
+			_collisionDetector.DetectCollision(_planes);
+			_collisionDetector.VerifyCollisions();
 
+			Assert.That(eventRaised == false);
+		}
 
+		[TestCase]
+		public void VerifyCollision_TwoPlanesNoLongerCollide_EventRaised()
+		{
+			bool eventRaised = false;
+			_planes.Add(new Plane() {Altitude = 4000, XCoord = 5000, YCoord = 5000, Speed = 1});
+			_planes.Add(new Plane() {Altitude = 4100, XCoord = 5001, YCoord = 5001, Speed = 1});
+
+			_collisionDetector.NoSeperationEvent += (obj, e) => eventRaised = true;
+
+			_collisionDetector.DetectCollision(_planes);
+
+			_planes[0].XCoord = 100000;
+			_collisionDetector.VerifyCollisions();
+
+			Assert.That(eventRaised == true);
+		}
 	}
 }
